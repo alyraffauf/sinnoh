@@ -3,6 +3,8 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: tranquil-pds
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   secretName: tranquil-pds-tls
   issuerRef:
@@ -15,6 +17,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tranquil-pds
+  annotations:
+    helm.sh/resource-policy: keep
 spec:
   ingressClassName: traefik
   tls:
