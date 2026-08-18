@@ -4,19 +4,19 @@
 
 ## Overview
 
-netcup RS 1000 G11 KVM Server running NixOS.
+OpenStack Foundation 19.3.2 OpenStack Nova running NixOS.
 
 ## Specs
 
-| Component | Details                                                                                      |
-| --------- | -------------------------------------------------------------------------------------------- |
-| Platform  | NixOS                                                                                        |
-| Model     | netcup RS 1000 G11 KVM Server                                                                |
-| Chassis   | Other                                                                                        |
-| CPU       | AMD EPYC 9634 84-Core Processor — 1 cores — 1 threads                                        |
-| Memory    | 8 GiB                                                                                        |
-| Storage   | IET VIRTUAL-DISK — 0 GiB; IET VIRTUAL-DISK — 1 GiB; IET VIRTUAL-DISK — 2 GiB; Disk — 256 GiB |
-| Graphics  | VGA compatible controller                                                                    |
-| Firmware  | netcup RS 1000 G11 07/07/2025                                                                |
+| Component | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Platform  | NixOS                                                        |
+| Model     | OpenStack Foundation 19.3.2 OpenStack Nova                   |
+| Chassis   | Other                                                        |
+| CPU       | Intel Core Processor (Haswell, no TSX) — 1 cores — 1 threads |
+| Memory    | 7.8 GiB                                                      |
+| Storage   | QEMU HARDDISK — 75 GiB                                       |
+| Graphics  | Cirrus Logic Cirrus Logic GD 5446                            |
+| Firmware  | SeaBIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014            |
 
 <!-- END GENERATED HOST SPECS -->

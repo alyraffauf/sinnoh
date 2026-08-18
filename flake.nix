@@ -1,5 +1,5 @@
 {
-  description = "Personal NixOS, Darwin, and system-manager configurations";
+  description = "Declarative NixOS and Kubernetes infrastructure for the Sinnoh cluster";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

@@ -1,71 +1,93 @@
 # ❄️ sinnoh
 
-My personal Nix configuration for NixOS, nix-darwin, and system-manager.
+Declarative infrastructure for a small NixOS fleet and its Kubernetes workloads. The repository uses a flake-parts Nix flake for host configuration, k3s for the cluster, Flux for GitOps reconciliation, and SOPS with age recipients for secrets.
 
-The flake is organized as small, composable modules. Shared behavior lives
-under `modules/nixos`, `modules/darwin`, and `modules/system-manager`; each
-host pulls together the pieces it needs under `modules/hosts`.
+## Architecture
 
-## Configurations
+| Host                                                 | Platform           | Role                                     |
+| ---------------------------------------------------- | ------------------ | ---------------------------------------- |
+| [`sunnyshore`](nix/hosts/nixos/sunnyshore/README.md) | NixOS on OpenStack | k3s server and control-plane data backup |
+| [`canalave`](nix/hosts/nixos/canalave/README.md)     | NixOS on OpenStack | k3s agent and observability services     |
 
-| Platform       | Host       | Flake output                     |
-| -------------- | ---------- | -------------------------------- |
-| NixOS          | Fallarbor  | `nixosConfigurations.fallarbor`  |
-| NixOS          | Mauville   | `nixosConfigurations.mauville`   |
-| NixOS          | Rustboro   | `nixosConfigurations.rustboro`   |
-| NixOS          | Sootopolis | `nixosConfigurations.sootopolis` |
-| nix-darwin     | Fortree    | `darwinConfigurations.fortree`   |
-| system-manager | Sootopolis | `systemConfigs.sootopolis`       |
+The nodes communicate over the `sinnoh` WireGuard interface. Flux watches the `master` branch and reconciles `k8s/flux-system`, which composes the application, networking, certificate, database, backup, and secret resources in the cluster.
 
-Hardware discovery is captured with nixos-facter, disk layouts are declared
-with Disko, and SOPS manages encrypted secrets.
-
-## Repository layout
+## Repository Layout
 
 ```text
-modules/
-├── nixos/           Shared NixOS modules, features, services, and users
-├── darwin/          Shared nix-darwin modules
-├── system-manager/  Shared system-manager modules
-└── hosts/           Per-host composition and hardware state
+.
+├── flake.nix                 Flake inputs and top-level composition
+├── nix/
+│   ├── hosts/nixos/         Per-host composition, disks, and hardware facts
+│   ├── nixos/               Shared services, programs, users, and features
+│   ├── deployments.nix      blzrd deployment targets
+│   ├── devShells.nix        Development tools
+│   └── treefmt.nix          Formatting and linting configuration
+├── k8s/
+│   ├── flux-system/         Flux bootstrap and reconciliation graph
+│   ├── charts/              Local Helm charts
+│   └── <service>/           Kustomize and Helm release resources
+├── keys/                    Public SSH keys used as age recipients
+├── secrets/                 SOPS-encrypted host and Kubernetes secrets
+├── scripts/                 Repository maintenance scripts
+└── .github/workflows/       Flake checks and host builds
 ```
 
-`flake.nix` imports the `modules/` tree. Each Nix file there is a flake-parts
-module that declares or extends a flake output; standalone helpers live outside
-that tree.
+Nix files are imported recursively, so new modules should declare or extend a flake output rather than being added to a central import list.
 
-## Common commands
+## Development
 
-Run these commands from the repository root.
+Install Nix with flakes enabled, then enter the pinned shell:
 
 ```bash
-# Format and evaluate the complete flake.
-nix fmt
-nix flake check
-
-# Build an output before applying it.
-nix build .#nixosConfigurations.mauville.config.system.build.toplevel
-nix build .#darwinConfigurations.fortree.config.system.build.toplevel
-nix build .#systemConfigs.sootopolis
-
-# Apply a configuration on its target host.
-sudo nixos-rebuild switch --flake .#mauville
-darwin-rebuild switch --flake .#fortree
+nix develop
 ```
 
-The Sootopolis system-manager configuration is built as shown above and is
-also refreshed by its configured system-manager auto-upgrade service.
+The shell provides Bun, Just, SOPS, `ssh-to-age`, and `blzrd`. With direnv installed, `direnv allow` enters the same environment automatically. Run `just` to list the available maintenance recipes.
+
+Before committing a change, format and validate the complete flake:
+
+```bash
+nix fmt
+nix flake check
+```
+
+`nix flake check` runs the treefmt and deployment-node checks. CI also builds both NixOS configurations. Build an affected host locally without activating it:
+
+```bash
+nix build .#nixosConfigurations.sunnyshore.config.system.build.toplevel
+nix build .#nixosConfigurations.canalave.config.system.build.toplevel
+```
+
+## Deployment
+
+The flake exposes both hosts as `blzrd` nodes. Deploy one host after a successful build:
+
+```bash
+blzrd switch sunnyshore
+```
+
+Running `blzrd switch` without a node deploys the complete fleet. These commands activate live system configurations, so review the evaluated changes before running them.
+
+Kubernetes resources follow a GitOps workflow: changes merged to `master` are reconciled by Flux. Application definitions belong in `k8s/<service>/`; reusable local charts belong in `k8s/charts/<service>/`. Do not hand-edit the generated `k8s/flux-system/gotk-components.yaml` manifest.
 
 ## Secrets
 
-Secrets in `secrets/` are SOPS-encrypted for every public key in `keys/`.
-NixOS and nix-darwin decrypt host secrets with
-`/etc/ssh/ssh_host_ed25519_key` during activation. Edit a secret with SOPS,
-then build and apply the affected configuration:
+Only encrypted secret files and public keys may be committed. Bootstrap local age access once, then edit a secret through SOPS:
 
 ```bash
-sops secrets/tailscale.yaml
+just sops-bootstrap
+just sops-edit tailscale.yaml
+just sops-edit kubernetes/pocket-id-env.sops.yaml
 ```
 
-When adding or removing a recipient, update `.sops.yaml` and re-encrypt every
-secret before committing the change.
+When adding or removing a public key in `keys/`, regenerate the SOPS configuration and re-encrypt every managed secret:
+
+```bash
+just sops-rekey
+```
+
+Commit `.sops.yaml` and all resulting encrypted-file updates together. Never commit decrypted output, private keys, or credentials.
+
+## Contributing
+
+See [AGENTS.md](AGENTS.md) for repository conventions, validation expectations, and pull request guidance. This project is available under the [MIT License](LICENSE.md).
