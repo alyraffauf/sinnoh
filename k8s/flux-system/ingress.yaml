@@ -1,0 +1,19 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ingress
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: letsencrypt
+    - name: vaultwarden
+    - name: pocket-id
+    - name: tranquil-pds
+    - name: aly-codes
+    - name: switchyard
+    - name: morsels
+  interval: 10m
+  path: ./k8s/ingress
+  prune: true
+  sourceRef: { kind: GitRepository, name: flux-system }
+  wait: true

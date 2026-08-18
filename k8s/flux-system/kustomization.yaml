@@ -18,3 +18,4 @@ resources:
   - aly-codes.yaml
   - switchyard.yaml
   - morsels.yaml
+  - ingress.yaml

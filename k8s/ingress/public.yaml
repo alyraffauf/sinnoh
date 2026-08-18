@@ -1,0 +1,239 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  secretName: vaultwarden-tls
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  dnsNames: [vault.cute.haus]
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pocket-id
+  namespace: identity
+spec:
+  secretName: pocket-id-tls
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  dnsNames: [id.cute.haus]
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tranquil-pds
+  namespace: tranquil-pds
+spec:
+  secretName: tranquil-pds-tls
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  dnsNames: [pds.cute.haus, aly.social, "*.aly.social"]
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: aly-codes
+  namespace: aly-codes
+spec:
+  secretName: aly-codes-tls
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  dnsNames: [aly.codes, www.aly.codes]
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: switchyard
+  namespace: switchyard
+spec:
+  secretName: switchyard-tls
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  dnsNames: [switchyard.aly.codes]
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: morsels
+  namespace: morsels
+spec:
+  secretName: morsels-blue-tls
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  dnsNames: [morsels.blue, www.morsels.blue]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: vaultwarden, namespace: vaultwarden }
+spec:
+  ingressClassName: traefik
+  tls: [{ hosts: [vault.cute.haus], secretName: vaultwarden-tls }]
+  rules:
+    - host: vault.cute.haus
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend:
+                  { service: { name: vaultwarden, port: { number: 80 } } },
+              },
+            ],
+        }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: pocket-id, namespace: identity }
+spec:
+  ingressClassName: traefik
+  tls: [{ hosts: [id.cute.haus], secretName: pocket-id-tls }]
+  rules:
+    - host: id.cute.haus
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: pocket-id, port: { number: 80 } } },
+              },
+            ],
+        }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: tranquil-pds, namespace: tranquil-pds }
+spec:
+  ingressClassName: traefik
+  tls:
+    [
+      {
+        hosts: [pds.cute.haus, aly.social, "*.aly.social"],
+        secretName: tranquil-pds-tls,
+      },
+    ]
+  rules:
+    - host: pds.cute.haus
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+            ],
+        }
+    - host: aly.social
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+            ],
+        }
+    - host: "*.aly.social"
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+            ],
+        }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: aly-codes, namespace: aly-codes }
+spec:
+  ingressClassName: traefik
+  tls: [{ hosts: [aly.codes, www.aly.codes], secretName: aly-codes-tls }]
+  rules:
+    - host: aly.codes
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: aly-codes, port: { name: http } } },
+              },
+            ],
+        }
+    - host: www.aly.codes
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: aly-codes, port: { name: http } } },
+              },
+            ],
+        }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: switchyard, namespace: switchyard }
+spec:
+  ingressClassName: traefik
+  tls: [{ hosts: [switchyard.aly.codes], secretName: switchyard-tls }]
+  rules:
+    - host: switchyard.aly.codes
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend:
+                  { service: { name: switchyard, port: { name: http } } },
+              },
+            ],
+        }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: morsels, namespace: morsels }
+spec:
+  ingressClassName: traefik
+  tls:
+    [{ hosts: [morsels.blue, www.morsels.blue], secretName: morsels-blue-tls }]
+  rules:
+    - host: morsels.blue
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: morsels, port: { name: http } } },
+              },
+            ],
+        }
+    - host: www.morsels.blue
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: morsels, port: { name: http } } },
+              },
+            ],
+        }
