@@ -5,15 +5,15 @@ _: {
     ...
   }: {
     sops.secrets = {
-      grafana-admin-password = {
-        sopsFile = self + "/secrets/grafana.yaml";
+      observability-grafana-admin-password = {
+        sopsFile = self + "/secrets/observability-grafana.yaml";
         key = "ADMIN_PASSWORD";
         owner = "grafana";
         mode = "0400";
       };
 
-      grafana-secret-key = {
-        sopsFile = self + "/secrets/grafana.yaml";
+      observability-grafana-secret-key = {
+        sopsFile = self + "/secrets/observability-grafana.yaml";
         key = "SECRET_KEY";
         owner = "grafana";
         mode = "0400";
@@ -24,8 +24,8 @@ _: {
       enable = true;
       settings = {
         security = {
-          admin_password = "$__file{${config.sops.secrets.grafana-admin-password.path}}";
-          secret_key = "$__file{${config.sops.secrets.grafana-secret-key.path}}";
+          admin_password = "$__file{${config.sops.secrets.observability-grafana-admin-password.path}}";
+          secret_key = "$__file{${config.sops.secrets.observability-grafana-secret-key.path}}";
         };
 
         server = {
@@ -39,16 +39,28 @@ _: {
         enable = true;
         datasources.settings.datasources = [
           {
-            name = "Prometheus";
+            name = "Sinnoh Prometheus";
             type = "prometheus";
             access = "proxy";
             url = "http://127.0.0.1:3020";
           }
           {
-            name = "Loki";
+            name = "Sinnoh Loki";
             type = "loki";
             access = "proxy";
             url = "http://127.0.0.1:3030";
+          }
+          {
+            name = "Johto Prometheus";
+            type = "prometheus";
+            access = "proxy";
+            url = "http://goldenrod.narwhal-snapper.ts.net:3020";
+          }
+          {
+            name = "Johto Loki";
+            type = "loki";
+            access = "proxy";
+            url = "http://goldenrod.narwhal-snapper.ts.net:3030";
           }
         ];
       };
