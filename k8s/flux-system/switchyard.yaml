@@ -4,8 +4,6 @@ metadata:
   name: switchyard
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: traefik
   interval: 10m
   path: ./k8s/switchyard
   prune: true

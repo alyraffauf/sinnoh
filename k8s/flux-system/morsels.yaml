@@ -4,8 +4,6 @@ metadata:
   name: morsels
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: letsencrypt
   interval: 10m
   path: ./k8s/morsels
   prune: true

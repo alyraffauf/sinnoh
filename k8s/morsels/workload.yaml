@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: morsels
+  namespace: morsels
+  labels:
+    app: morsels
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: morsels
+  template:
+    metadata:
+      labels:
+        app: morsels
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      containers:
+        - name: morsels
+          image: ghcr.io/alyraffauf/morsels:latest@sha256:a16a51a3571deffe9c372aa604e78694c9bb1d75201ce903a4c8f19ec42a39a0
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            requests:
+              cpu: 10m
+              memory: 384Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+            failureThreshold: 24
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: morsels
+  namespace: morsels
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  selector:
+    app: morsels
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

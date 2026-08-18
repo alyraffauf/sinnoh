@@ -4,8 +4,6 @@ metadata:
   name: aly-codes
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: letsencrypt
   interval: 10m
   path: ./k8s/aly-codes
   prune: true

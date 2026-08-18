@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: switchyard
+  namespace: switchyard
+  labels:
+    app: switchyard
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: switchyard
+  template:
+    metadata:
+      labels:
+        app: switchyard
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: switchyard
+      containers:
+        - name: switchyard
+          image: ghcr.io/alyraffauf/switchyard-website:latest@sha256:9f2b460f89c6333546e0f5fa90efa1a379a22e9917457860f462281598c5e2d4
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: switchyard
+  namespace: switchyard
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  selector:
+    app: switchyard
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
