@@ -28,4 +28,4 @@ Never commit plaintext secrets, decrypted output, or private keys. Use `just sop
 
 ## Commit & Pull Request Guidelines
 
-Follow the recent Conventional Commit pattern: `feat(ombi): run on PostgreSQL`, `fix(identity): reconcile chart revisions`, or `ci: build NixOS hosts`. Keep commits focused. Pull requests should name affected hosts or services, explain deployment or migration impact, link relevant issues, and list exact checks and builds run. Include screenshots only for user-visible changes.
+Follow the recent Conventional Commit pattern: `feat(vaultwarden): run on PostgreSQL`, `fix(identity): reconcile chart revisions`, or `ci: build NixOS hosts`. Keep commits focused. Pull requests should name affected hosts or services, explain deployment or migration impact, link relevant issues, and list exact checks and builds run. Include screenshots only for user-visible changes.

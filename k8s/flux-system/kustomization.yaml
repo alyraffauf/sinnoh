@@ -13,7 +13,6 @@ resources:
   - vaultwarden.yaml
   - pocket-id.yaml
   - tranquil-pds.yaml
-  - ombi.yaml
   - letsencrypt.yaml
   - traefik.yaml
   - aly-codes.yaml
