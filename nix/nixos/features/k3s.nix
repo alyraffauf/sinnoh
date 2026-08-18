@@ -17,8 +17,8 @@ _: {
     };
 
     systemd.services.k3s = {
-      after = ["wireguard-sinnoh.service"];
-      wants = ["wireguard-sinnoh.service"];
+      after = ["wireguard-sinnoh.target"];
+      wants = ["wireguard-sinnoh.target"];
     };
   };
 }
