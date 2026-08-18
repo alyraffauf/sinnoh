@@ -7,6 +7,9 @@ storage:
   className: local-path
   size: 1Gi
 
+ingress:
+  enabled: true
+
 resources:
   requests:
     cpu: 50m

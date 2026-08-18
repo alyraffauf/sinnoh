@@ -11,6 +11,9 @@ publicIngress:
   enabled: true
   clusterIssuer: letsencrypt
 
+ingress:
+  enabled: true
+
 resources:
   requests:
     cpu: 100m

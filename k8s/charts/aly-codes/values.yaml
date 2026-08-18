@@ -10,6 +10,9 @@ certificate:
   clusterIssuer: letsencrypt
   secretName: aly-codes-tls
 
+ingress:
+  enabled: true
+
 resources:
   requests:
     cpu: 10m

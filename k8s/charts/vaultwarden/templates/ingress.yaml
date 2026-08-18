@@ -1,4 +1,4 @@
-{{- if .Values.publicIngress.enabled }}
+{{- if .Values.ingress.enabled }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:

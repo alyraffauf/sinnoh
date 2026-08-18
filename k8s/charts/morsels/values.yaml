@@ -8,6 +8,9 @@ certificate:
   clusterIssuer: letsencrypt
   secretName: morsels-blue-tls
 
+ingress:
+  enabled: true
+
 resources:
   requests:
     cpu: 10m

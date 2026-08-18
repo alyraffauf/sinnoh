@@ -11,6 +11,9 @@ certificate:
   clusterIssuer: letsencrypt
   secretName: pocket-id-tls
 
+ingress:
+  enabled: true
+
 resources:
   requests:
     cpu: 50m
