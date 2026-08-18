@@ -5,8 +5,6 @@ metadata:
   namespace: morsels
   labels:
     app: morsels
-  annotations:
-    helm.sh/resource-policy: keep
 spec:
   replicas: 1
   strategy:
@@ -60,8 +58,6 @@ kind: Service
 metadata:
   name: morsels
   namespace: morsels
-  annotations:
-    helm.sh/resource-policy: keep
 spec:
   selector:
     app: morsels

@@ -5,8 +5,6 @@ metadata:
   namespace: aly-codes
   labels:
     app: aly-codes
-  annotations:
-    helm.sh/resource-policy: keep
 spec:
   replicas: 2
   selector:
@@ -53,8 +51,6 @@ kind: Service
 metadata:
   name: aly-codes
   namespace: aly-codes
-  annotations:
-    helm.sh/resource-policy: keep
 spec:
   selector:
     app: aly-codes
