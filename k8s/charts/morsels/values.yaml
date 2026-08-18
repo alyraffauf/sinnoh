@@ -9,7 +9,7 @@ certificate:
   secretName: morsels-blue-tls
 
 ingress:
-  enabled: true
+  enabled: false
 
 resources:
   requests:

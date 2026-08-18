@@ -8,7 +8,7 @@ storage:
   size: 1Gi
 
 ingress:
-  enabled: true
+  enabled: false
 
 resources:
   requests:

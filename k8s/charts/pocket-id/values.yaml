@@ -12,7 +12,7 @@ certificate:
   secretName: pocket-id-tls
 
 ingress:
-  enabled: true
+  enabled: false
 
 resources:
   requests:

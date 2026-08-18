@@ -9,7 +9,7 @@ certificate:
   secretName: switchyard-tls
 
 ingress:
-  enabled: true
+  enabled: false
 
 resources:
   requests:

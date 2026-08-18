@@ -11,7 +11,7 @@ certificate:
   secretName: aly-codes-tls
 
 ingress:
-  enabled: true
+  enabled: false
 
 resources:
   requests:
