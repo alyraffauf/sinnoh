@@ -7,7 +7,6 @@ spec:
   dependsOn:
     - name: letsencrypt
     - name: vaultwarden
-    - name: pocket-id
     - name: tranquil-pds
     - name: aly-codes
     - name: switchyard
