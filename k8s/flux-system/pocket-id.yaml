@@ -4,6 +4,7 @@ metadata:
   name: pocket-id
   namespace: flux-system
 spec:
+  suspend: true
   dependsOn:
     - name: postgres
     - name: secrets
