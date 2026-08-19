@@ -1,0 +1,205 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tranquil-pds-valkey-data
+  namespace: tranquil-pds
+  labels:
+    app: tranquil-pds-valkey
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tranquil-pds-valkey
+  namespace: tranquil-pds
+  labels:
+    app: tranquil-pds-valkey
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tranquil-pds-valkey
+  template:
+    metadata:
+      labels:
+        app: tranquil-pds-valkey
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      nodeSelector:
+        kubernetes.io/hostname: sunnyshore
+      containers:
+        - name: valkey
+          image: valkey/valkey:9-alpine@sha256:ee91f7a174ac4d6a6b0685b3a60e321f0a9dbbb691f9b0e285be2ba1d1be8328
+          args:
+            - valkey-server
+            - --appendonly
+            - "yes"
+            - --appendfsync
+            - everysec
+            - --maxmemory
+            - 256mb
+            - --maxmemory-policy
+            - volatile-lru
+          ports:
+            - name: valkey
+              containerPort: 6379
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          startupProbe:
+            tcpSocket:
+              port: valkey
+            periodSeconds: 5
+            failureThreshold: 12
+          livenessProbe:
+            tcpSocket:
+              port: valkey
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: valkey
+            periodSeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: tranquil-pds-valkey-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tranquil-pds-valkey
+  namespace: tranquil-pds
+  labels:
+    app: tranquil-pds-valkey
+spec:
+  selector:
+    app: tranquil-pds-valkey
+  ports:
+    - name: valkey
+      port: 6379
+      targetPort: valkey
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tranquil-pds
+  namespace: tranquil-pds
+  labels:
+    app: tranquil-pds
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tranquil-pds
+  template:
+    metadata:
+      labels:
+        app: tranquil-pds
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      imagePullSecrets:
+        - name: tranquil-pds-atcr-pull
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: tranquil-pds
+      containers:
+        - name: tranquil-pds
+          image: atcr.io/tranquil.farm/tranquil-pds:latest@sha256:9b9dc0eb4469abf9132882ebb9e762497746fe2577230a9d23d06250c7ed3378
+          env:
+            - { name: AWS_REGION, value: us-east-005 }
+            - { name: BLOB_STORAGE_BACKEND, value: s3 }
+            - { name: CACHE_BACKEND, value: valkey }
+            - { name: CRAWLERS, value: https://bsky.network }
+            - { name: INVITE_CODE_REQUIRED, value: "true" }
+            - { name: MAIL_FROM_ADDRESS, value: admin@aly.social }
+            - { name: MAIL_FROM_NAME, value: tranquil }
+            - { name: MAIL_SMARTHOST_HOST, value: smtp.resend.com }
+            - { name: MAIL_SMARTHOST_PORT, value: "2465" }
+            - { name: MAIL_SMARTHOST_TLS, value: implicit }
+            - { name: MAIL_SMARTHOST_USERNAME, value: resend }
+            - { name: MAX_CONCURRENT_REPO_EXPORTS, value: "8" }
+            - { name: PDS_HOSTNAME, value: pds.cute.haus }
+            - { name: PDS_USER_HANDLE_DOMAINS, value: aly.social }
+            - { name: PLC_DIRECTORY_URL, value: https://plc.directory }
+            - { name: S3_BUCKET, value: aly-tranquil-blobs }
+            - { name: S3_ENDPOINT, value: https://s3.us-east-005.backblazeb2.com }
+            - { name: SERVER_HOST, value: 0.0.0.0 }
+            - { name: SERVER_PORT, value: "3000" }
+            - { name: SKIP_IMPORT_VERIFICATION, value: "false" }
+            - { name: SSO_OIDC_DISPLAY_NAME, value: cute.haus }
+            - { name: SSO_OIDC_ENABLED, value: "true" }
+            - { name: SSO_OIDC_ISSUER, value: https://id.cute.haus }
+            - { name: VALKEY_URL, value: redis://tranquil-pds-valkey:6379/5 }
+          envFrom:
+            - secretRef:
+                name: tranquil-pds-env
+            - secretRef:
+                name: tranquil-pds-sso-env
+          ports:
+            - name: http
+              containerPort: 3000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          startupProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60
+          livenessProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: http
+            periodSeconds: 60
+            timeoutSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tranquil-pds
+  namespace: tranquil-pds
+  labels:
+    app: tranquil-pds
+spec:
+  selector:
+    app: tranquil-pds
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
