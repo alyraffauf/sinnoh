@@ -11,7 +11,6 @@ resources:
   - postgres.yaml
   - tailscale-dns.yaml
   - vaultwarden.yaml
-  - pocket-id.yaml
   - tranquil-pds.yaml
   - letsencrypt.yaml
   - traefik.yaml

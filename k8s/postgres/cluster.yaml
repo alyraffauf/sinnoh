@@ -26,10 +26,6 @@ spec:
         barmanObjectName: pg-shared-backups
   managed:
     roles:
-      - name: pocket-id
-        login: true
-        passwordSecret:
-          name: pocket-id-pg-creds
       - name: vaultwarden
         login: true
         passwordSecret:

@@ -11,16 +11,6 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: pocket-id
-  namespace: identity
-spec:
-  secretName: pocket-id-tls
-  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
-  dnsNames: [id.cute.haus, id.aly.town]
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
   name: tranquil-pds
   namespace: tranquil-pds
 spec:
@@ -89,38 +79,6 @@ spec:
                 pathType: Prefix,
                 backend:
                   { service: { name: vaultwarden, port: { number: 80 } } },
-              },
-            ],
-        }
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata: { name: pocket-id, namespace: identity }
-spec:
-  ingressClassName: traefik
-  tls: [{ hosts: [id.cute.haus, id.aly.town], secretName: pocket-id-tls }]
-  rules:
-    - host: id.cute.haus
-      http:
-        {
-          paths:
-            [
-              {
-                path: /,
-                pathType: Prefix,
-                backend: { service: { name: pocket-id, port: { number: 80 } } },
-              },
-            ],
-        }
-    - host: id.aly.town
-      http:
-        {
-          paths:
-            [
-              {
-                path: /,
-                pathType: Prefix,
-                backend: { service: { name: pocket-id, port: { number: 80 } } },
               },
             ],
         }
