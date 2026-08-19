@@ -130,30 +130,54 @@ spec:
         - name: tranquil-pds
           image: atcr.io/tranquil.farm/tranquil-pds:latest@sha256:9b9dc0eb4469abf9132882ebb9e762497746fe2577230a9d23d06250c7ed3378
           env:
-            - { name: AWS_REGION, value: us-east-005 }
-            - { name: BLOB_STORAGE_BACKEND, value: s3 }
-            - { name: CACHE_BACKEND, value: valkey }
-            - { name: CRAWLERS, value: https://bsky.network }
-            - { name: INVITE_CODE_REQUIRED, value: "true" }
-            - { name: MAIL_FROM_ADDRESS, value: admin@aly.social }
-            - { name: MAIL_FROM_NAME, value: tranquil }
-            - { name: MAIL_SMARTHOST_HOST, value: smtp.resend.com }
-            - { name: MAIL_SMARTHOST_PORT, value: "2465" }
-            - { name: MAIL_SMARTHOST_TLS, value: implicit }
-            - { name: MAIL_SMARTHOST_USERNAME, value: resend }
-            - { name: MAX_CONCURRENT_REPO_EXPORTS, value: "8" }
-            - { name: PDS_HOSTNAME, value: pds.cute.haus }
-            - { name: PDS_USER_HANDLE_DOMAINS, value: aly.social }
-            - { name: PLC_DIRECTORY_URL, value: https://plc.directory }
-            - { name: S3_BUCKET, value: aly-tranquil-blobs }
-            - { name: S3_ENDPOINT, value: https://s3.us-east-005.backblazeb2.com }
-            - { name: SERVER_HOST, value: 0.0.0.0 }
-            - { name: SERVER_PORT, value: "3000" }
-            - { name: SKIP_IMPORT_VERIFICATION, value: "false" }
-            - { name: SSO_OIDC_DISPLAY_NAME, value: cute.haus }
-            - { name: SSO_OIDC_ENABLED, value: "true" }
-            - { name: SSO_OIDC_ISSUER, value: https://id.cute.haus }
-            - { name: VALKEY_URL, value: redis://tranquil-pds-valkey:6379/5 }
+            - name: AWS_REGION
+              value: us-east-005
+            - name: BLOB_STORAGE_BACKEND
+              value: s3
+            - name: CACHE_BACKEND
+              value: valkey
+            - name: CRAWLERS
+              value: https://bsky.network
+            - name: INVITE_CODE_REQUIRED
+              value: "true"
+            - name: MAIL_FROM_ADDRESS
+              value: admin@aly.social
+            - name: MAIL_FROM_NAME
+              value: tranquil
+            - name: MAIL_SMARTHOST_HOST
+              value: smtp.resend.com
+            - name: MAIL_SMARTHOST_PORT
+              value: "2465"
+            - name: MAIL_SMARTHOST_TLS
+              value: implicit
+            - name: MAIL_SMARTHOST_USERNAME
+              value: resend
+            - name: MAX_CONCURRENT_REPO_EXPORTS
+              value: "8"
+            - name: PDS_HOSTNAME
+              value: pds.cute.haus
+            - name: PDS_USER_HANDLE_DOMAINS
+              value: aly.social
+            - name: PLC_DIRECTORY_URL
+              value: https://plc.directory
+            - name: S3_BUCKET
+              value: aly-tranquil-blobs
+            - name: S3_ENDPOINT
+              value: https://s3.us-east-005.backblazeb2.com
+            - name: SERVER_HOST
+              value: 0.0.0.0
+            - name: SERVER_PORT
+              value: "3000"
+            - name: SKIP_IMPORT_VERIFICATION
+              value: "false"
+            - name: SSO_OIDC_DISPLAY_NAME
+              value: cute.haus
+            - name: SSO_OIDC_ENABLED
+              value: "true"
+            - name: SSO_OIDC_ISSUER
+              value: https://id.cute.haus
+            - name: VALKEY_URL
+              value: redis://tranquil-pds-valkey:6379/5
           envFrom:
             - secretRef:
                 name: tranquil-pds-env
