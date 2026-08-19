@@ -8,10 +8,8 @@ const FACTER_HOSTS_DIRECTORY = "nix/hosts/nixos";
 const GENERATED_SECTION_START = "<!-- BEGIN GENERATED HOST SPECS -->";
 const GENERATED_SECTION_END = "<!-- END GENERATED HOST SPECS -->";
 const HOST_EMOJIS: Record<string, string> = {
-  fallarbor: "🍃",
-  mauville: "⚡",
-  rustboro: "🪨",
-  sootopolis: "🌊",
+  canalave: "⚓",
+  sunnyshore: "☀️",
 };
 
 type Specification = readonly [component: string, details: string];
@@ -176,15 +174,16 @@ function renderGeneratedSection(
   hostName: string,
   report: FacterReport,
 ): string {
+  const emoji = HOST_EMOJIS[hostName.toLowerCase()] ?? "🖥️";
   const model = describeModel(report);
   const overview =
-    model === "" ? "NixOS host managed by Hoenn." : `${model} running NixOS.`;
+    model === "" ? "NixOS host managed by Sinnoh." : `${model} running NixOS.`;
   const table = renderTable(specificationsFor(report));
 
   return [
     GENERATED_SECTION_START,
     "",
-    `# ${HOST_EMOJIS[hostName.toLowerCase()]} ${hostName}`,
+    `# ${emoji} ${hostName}`,
     "",
     "## Overview",
     "",

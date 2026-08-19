@@ -11,6 +11,7 @@ _: {
         pkgs.bun
         pkgs.just
         pkgs.nh
+        pkgs.opentofu
         pkgs.sops
         pkgs.ssh-to-age
       ];

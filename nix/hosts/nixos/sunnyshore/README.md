@@ -1,6 +1,6 @@
 <!-- BEGIN GENERATED HOST SPECS -->
 
-# undefined Sunnyshore
+# ☀️ Sunnyshore
 
 ## Overview
 
