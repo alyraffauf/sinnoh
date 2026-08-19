@@ -21,3 +21,14 @@ resource "cloudflare_dns_record" "aly_town_id_a" {
   tags     = []
   settings = {}
 }
+
+resource "cloudflare_dns_record" "aly_town_vault_a" {
+  zone_id  = local.zones.aly_town
+  name     = "vault.aly.town"
+  type     = "A"
+  content  = local.sunnyshore
+  proxied  = true
+  ttl      = 1
+  tags     = []
+  settings = {}
+}
