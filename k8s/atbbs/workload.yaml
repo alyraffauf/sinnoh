@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atbbs-telnet
+  namespace: atbbs
+  labels:
+    app: atbbs-telnet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atbbs-telnet
+  template:
+    metadata:
+      labels:
+        app: atbbs-telnet
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      containers:
+        - name: atbbs-telnet
+          image: ghcr.io/alyraffauf/atbbs-telnet:latest@sha256:b70ea4b81898cc005ab73ba564ef0cfaba1ef6230fa9df48f11d894f9d5b5087
+          ports:
+            - name: telnet
+              containerPort: 2323
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atbbs-telnet
+  namespace: atbbs
+spec:
+  selector:
+    app: atbbs-telnet
+  ports:
+    - name: telnet
+      port: 2323
+      targetPort: telnet
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: atbbs-telnet
+  namespace: atbbs
+spec:
+  entryPoints:
+    - telnet
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: atbbs-telnet
+          port: 2323
