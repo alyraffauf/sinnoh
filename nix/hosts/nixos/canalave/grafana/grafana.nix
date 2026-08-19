@@ -54,13 +54,13 @@ _: {
             name = "Johto Prometheus";
             type = "prometheus";
             access = "proxy";
-            url = "http://goldenrod.narwhal-snapper.ts.net:3020";
+            url = "http://100.81.61.31:3020";
           }
           {
             name = "Johto Loki";
             type = "loki";
             access = "proxy";
-            url = "http://goldenrod.narwhal-snapper.ts.net:3030";
+            url = "http://100.81.61.31:3030";
           }
         ];
       };
