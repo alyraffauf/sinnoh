@@ -37,32 +37,46 @@ _: {
 
       provision = {
         enable = true;
-        datasources.settings.datasources = [
-          {
-            name = "Sinnoh Prometheus";
-            type = "prometheus";
-            access = "proxy";
-            url = "http://127.0.0.1:3020";
-          }
-          {
-            name = "Sinnoh Loki";
-            type = "loki";
-            access = "proxy";
-            url = "http://127.0.0.1:3030";
-          }
-          {
-            name = "Johto Prometheus";
-            type = "prometheus";
-            access = "proxy";
-            url = "http://100.81.61.31:3020";
-          }
-          {
-            name = "Johto Loki";
-            type = "loki";
-            access = "proxy";
-            url = "http://100.81.61.31:3030";
-          }
-        ];
+        datasources.settings = {
+          prune = true;
+          deleteDatasources = [
+            {
+              name = "Prometheus";
+              orgId = 1;
+            }
+            {
+              name = "Loki";
+              orgId = 1;
+            }
+          ];
+
+          datasources = [
+            {
+              name = "Sinnoh Prometheus";
+              type = "prometheus";
+              access = "proxy";
+              url = "http://127.0.0.1:3020";
+            }
+            {
+              name = "Sinnoh Loki";
+              type = "loki";
+              access = "proxy";
+              url = "http://127.0.0.1:3030";
+            }
+            {
+              name = "Johto Prometheus";
+              type = "prometheus";
+              access = "proxy";
+              url = "http://100.81.61.31:3020";
+            }
+            {
+              name = "Johto Loki";
+              type = "loki";
+              access = "proxy";
+              url = "http://100.81.61.31:3030";
+            }
+          ];
+        };
       };
     };
 
