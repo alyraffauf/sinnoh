@@ -1,5 +1,6 @@
 locals {
   sunnyshore = "40.160.83.152"
+  olivine    = "51.81.32.154"
 
   zones = {
     aly_codes    = "a6ac528f39180d8f53576a187feeba7f"
