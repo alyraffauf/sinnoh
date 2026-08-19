@@ -9,6 +9,7 @@ _: {
       extraFlags = [
         "--node-ip=10.254.0.2"
         "--advertise-address=10.254.0.2"
+        "--tls-san=sunnyshore"
       ];
     };
 
