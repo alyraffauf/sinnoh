@@ -16,7 +16,7 @@ metadata:
 spec:
   secretName: pocket-id-tls
   issuerRef: { kind: ClusterIssuer, name: letsencrypt }
-  dnsNames: [id.cute.haus]
+  dnsNames: [id.cute.haus, id.aly.town]
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -84,9 +84,21 @@ kind: Ingress
 metadata: { name: pocket-id, namespace: identity }
 spec:
   ingressClassName: traefik
-  tls: [{ hosts: [id.cute.haus], secretName: pocket-id-tls }]
+  tls: [{ hosts: [id.cute.haus, id.aly.town], secretName: pocket-id-tls }]
   rules:
     - host: id.cute.haus
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: pocket-id, port: { number: 80 } } },
+              },
+            ],
+        }
+    - host: id.aly.town
       http:
         {
           paths:
