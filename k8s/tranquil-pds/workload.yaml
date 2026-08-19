@@ -155,7 +155,7 @@ spec:
             - name: MAX_CONCURRENT_REPO_EXPORTS
               value: "8"
             - name: PDS_HOSTNAME
-              value: pds.cute.haus
+              value: aly.social
             - name: PDS_USER_HANDLE_DOMAINS
               value: aly.social
             - name: PLC_DIRECTORY_URL
