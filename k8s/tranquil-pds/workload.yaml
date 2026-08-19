@@ -103,7 +103,7 @@ metadata:
   labels:
     app: tranquil-pds
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: tranquil-pds
