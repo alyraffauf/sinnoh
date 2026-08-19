@@ -14,7 +14,7 @@ resource "cloudflare_dns_record" "aly_social_apex_a" {
   name     = "aly.social"
   type     = "A"
   content  = local.sunnyshore
-  proxied  = true
+  proxied  = false
   ttl      = 1
   tags     = []
   settings = {}
