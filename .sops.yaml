@@ -4,12 +4,12 @@
 keys:
   # === user keys (aly@<host>) ===
   - &user_aly_canalave age1zj2aq2a2v3ngcer7s3jz6pufhh8ula8pw56etmy28dy25wrkk3vq59hu2s
-  - &user_aly_fortree age1kny9hv9t64ge379mk977slfx8deqy3df0c4cydh0lxu4ffczkftqpe2x6g
-  - &user_aly_jubilife age1e5a0aaueyk34klry2qk094zrwfsvga0uft93mwweye30xhqhvfzs3jgqku
+  - &user_aly_fortree age1tgm3rcc2glqjxl5al2r780aweywv5tc2u065fzqlntwjzws4kckqepz7nl
+  - &user_aly_goldenrod age1e5a0aaueyk34klry2qk094zrwfsvga0uft93mwweye30xhqhvfzs3jgqku
   - &user_aly_mauville age1876lthmlfq2aq6nm6z2qyu0ed4aa5ss68xvnlw5cqxcdtzslaqrqzgcmlm
   - &user_aly_pacifidlog age1j9jju3whwj72udhge7v4c77gk6v6w2cq8zjngzyppwtptfsz499qyywu9a
   - &user_aly_petalburg age162sx8kppp90mjxw88eqs78hgnpkddf8k9kgtksmmexzvcdxknpkspmkgaf
-  - &user_aly_rustboro age1hhvzccxzrysq6ak2ktuks00vy3smr6rhey9swhncq8850epftpjqt3c7f3
+  - &user_aly_rustboro age1fczwtlqdqq7pjyzna2yl9nvmhpe68zk5k6nyn0dt4sp0lts04anskhcmu6
   - &user_aly_sootopolis age15td0jk5e2qeq2pexvxguhuuaxuaa7nhql7mhx9jr79caska6t4pqdv5spl
   # === host keys (root@<host>) ===
   - &host_canalave age198xvgu5frdusj6gnmducql6h634uapkcznnf704wn8wfqcumu98sttjlrc
@@ -29,7 +29,7 @@ creation_rules:
       - age:
           - *user_aly_canalave
           - *user_aly_fortree
-          - *user_aly_jubilife
+          - *user_aly_goldenrod
           - *user_aly_mauville
           - *user_aly_pacifidlog
           - *user_aly_petalburg
