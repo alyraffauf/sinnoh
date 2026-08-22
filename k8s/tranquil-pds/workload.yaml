@@ -128,7 +128,7 @@ spec:
               app: tranquil-pds
       containers:
         - name: tranquil-pds
-          image: atcr.io/tranquil.farm/tranquil-pds:latest@sha256:9340bb70cf8f4bad57b325b815a13039e53eaec0c1ebb085fbd3a39aae8da5d5
+          image: atcr.io/tranquil.farm/tranquil-pds:latest@sha256:9f2ca6012181c684e49658b34903986685e6c3a975b123ced3762bc928dd3aab
           env:
             - name: AWS_REGION
               value: us-east-005
