@@ -2,7 +2,7 @@
   hoennNodes = {
     sunnyshore = {
       address = "10.254.1.1";
-      publicKey = "VHyEjnDpdLeiUAi33Rl9L/9kl1IA8Xq1rxWcK6DoCgI=";
+      publicKey = "vinYIK2laJ19yVMlw6iB5lb9+wY8ZBrM+Y4nrBmMxxQ=";
     };
 
     mauville = {
