@@ -11,15 +11,15 @@
         inputs.determinate.nixosModules.default
         inputs.disko.nixosModules.disko
         inputs.sops-nix.nixosModules.sops
-        self.nixosModules.autoUpgrade
-        self.nixosModules.default
-        self.nixosModules.sunnyshore
-        self.nixosModules.aly
         self.nixosModules.alloy
+        self.nixosModules.aly
+        self.nixosModules.autoUpgrade
         self.nixosModules.backups
         self.nixosModules.comin
+        self.nixosModules.default
         self.nixosModules.k3s
         self.nixosModules.prometheusNode
+        self.nixosModules.sunnyshore
         self.nixosModules.tailscale
         self.nixosModules.wireguardSinnoh
       ];

@@ -11,13 +11,13 @@
         inputs.determinate.nixosModules.default
         inputs.disko.nixosModules.disko
         inputs.sops-nix.nixosModules.sops
-        self.nixosModules.autoUpgrade
-        self.nixosModules.default
-        self.nixosModules.canalave
-        self.nixosModules.aly
         self.nixosModules.alloy
+        self.nixosModules.aly
+        self.nixosModules.autoUpgrade
         self.nixosModules.backups
+        self.nixosModules.canalave
         self.nixosModules.comin
+        self.nixosModules.default
         self.nixosModules.k3s
         self.nixosModules.prometheusNode
         self.nixosModules.tailscale
