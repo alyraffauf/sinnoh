@@ -17,6 +17,7 @@
         self.nixosModules.aly
         self.nixosModules.alloy
         self.nixosModules.backups
+        self.nixosModules.comin
         self.nixosModules.k3s
         self.nixosModules.prometheusNode
         self.nixosModules.tailscale
