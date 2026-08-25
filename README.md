@@ -55,7 +55,7 @@ nix build .#nixosConfigurations.sunnyshore.config.system.build.toplevel
 nix build .#nixosConfigurations.canalave.config.system.build.toplevel
 
 # Refresh the generated host hardware documentation.
-bun scripts/generate-host-readmes.ts
+nix run github:alyraffauf/infra#generate-host-readmes
 
 # Discover repository maintenance recipes.
 just
