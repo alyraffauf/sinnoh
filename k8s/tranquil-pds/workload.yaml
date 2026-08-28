@@ -119,13 +119,15 @@ spec:
       enableServiceLinks: false
       imagePullSecrets:
         - name: tranquil-pds-atcr-pull
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app: tranquil-pds
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: tranquil-pds
+              matchLabelKeys:
+                - pod-template-hash
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: tranquil-pds
           image: atcr.io/tranquil.farm/tranquil-pds:latest@sha256:9d803e048be9231ddc5dde854b9f581bf40a614adb6c812ac497bc7b8d4c06ce
