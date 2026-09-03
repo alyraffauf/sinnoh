@@ -30,3 +30,14 @@ resource "cloudflare_dns_record" "aly_town_skytrace_a" {
   tags     = []
   settings = {}
 }
+
+resource "cloudflare_dns_record" "aly_town_skytrace_atproto_txt" {
+  zone_id  = local.zones.aly_town
+  name     = "_atproto.skytrace.aly.town"
+  type     = "TXT"
+  content  = "\"did=did:plc:jwxdvd2mdtdq7la7toiy2rjc\""
+  proxied  = false
+  ttl      = 1
+  tags     = []
+  settings = {}
+}
