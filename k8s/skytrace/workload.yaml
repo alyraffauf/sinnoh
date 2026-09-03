@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skytrace
+  namespace: skytrace
+  labels:
+    app: skytrace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: skytrace
+  template:
+    metadata:
+      labels:
+        app: skytrace
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: skytrace
+      containers:
+        - name: skytrace
+          image: ghcr.io/alyraffauf/skytrace:latest@sha256:9ebf680553ca608c112a203852f43d0c30861687cc73ee1dbb02aaac7a4c60c6
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: skytrace
+  namespace: skytrace
+spec:
+  selector:
+    app: skytrace
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

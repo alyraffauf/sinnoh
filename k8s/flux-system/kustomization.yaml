@@ -16,6 +16,7 @@ resources:
   - traefik.yaml
   - atbbs.yaml
   - aly-codes.yaml
+  - skytrace.yaml
   - switchyard.yaml
   - morsels.yaml
   - ingress.yaml

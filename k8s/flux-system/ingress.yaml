@@ -9,6 +9,7 @@ spec:
     - name: vaultwarden
     - name: tranquil-pds
     - name: aly-codes
+    - name: skytrace
     - name: switchyard
     - name: morsels
   interval: 10m
