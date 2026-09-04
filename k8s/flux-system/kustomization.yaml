@@ -10,6 +10,7 @@ resources:
   - postgres-backups.yaml
   - postgres.yaml
   - tailscale-dns.yaml
+  - alloy.yaml
   - vaultwarden.yaml
   - tranquil-pds.yaml
   - letsencrypt.yaml

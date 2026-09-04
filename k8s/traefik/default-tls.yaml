@@ -22,6 +22,12 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    additionalArguments:
+      - --accesslog.fields.queryparameters.defaultmode=drop
+    logs:
+      access:
+        enabled: true
+        format: json
     ports:
       telnet:
         port: 2323
