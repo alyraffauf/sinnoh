@@ -26,7 +26,7 @@ spec:
               app: skytrace
       containers:
         - name: skytrace
-          image: ghcr.io/alyraffauf/skytrace:latest@sha256:ebd26507efe9163a26f4cfbe8084761d56ee9c1a2b580905389cd8c3647331c6
+          image: ghcr.io/alyraffauf/skytrace:latest@sha256:6b43dae18ce6b5a470d605e749a412fb728e29a84b8e5b7abd7ed202533e3f70
           ports:
             - name: http
               containerPort: 80
