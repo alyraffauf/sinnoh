@@ -6,13 +6,6 @@ metadata:
 spec:
   dependsOn:
     - name: letsencrypt
-    - name: vaultwarden
-    - name: tranquil-pds
-    - name: pacifico
-    - name: aly-codes
-    - name: skytrace
-    - name: switchyard
-    - name: morsels
   interval: 10m
   path: ./k8s/ingress
   prune: true
