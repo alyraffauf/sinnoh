@@ -26,7 +26,7 @@ spec:
               app: pacifico
       containers:
         - name: pacifico
-          image: ghcr.io/alyraffauf/pacifico:latest@sha256:61c0ebd53ce41ea71f5d3f8d793714a4e72bc77dba72bb39413a004b0f865980
+          image: ghcr.io/alyraffauf/pacifico:latest@sha256:0a527e206cbd4397c0447b7b272e4ab4ce5608e2429334aa326e021bbd29929a
           env:
             - name: PUBLIC_ORIGIN
               value: https://aly.social
