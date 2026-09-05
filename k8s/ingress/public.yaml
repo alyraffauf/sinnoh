@@ -16,7 +16,7 @@ metadata:
 spec:
   secretName: tranquil-pds-tls
   issuerRef: { kind: ClusterIssuer, name: letsencrypt }
-  dnsNames: [pds.cute.haus, aly.social, "*.aly.social"]
+  dnsNames: [aly.social, "*.aly.social"]
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -98,27 +98,8 @@ kind: Ingress
 metadata: { name: tranquil-pds, namespace: tranquil-pds }
 spec:
   ingressClassName: traefik
-  tls:
-    [
-      {
-        hosts: [pds.cute.haus, aly.social, "*.aly.social"],
-        secretName: tranquil-pds-tls,
-      },
-    ]
+  tls: [{ hosts: [aly.social, "*.aly.social"], secretName: tranquil-pds-tls }]
   rules:
-    - host: pds.cute.haus
-      http:
-        {
-          paths:
-            [
-              {
-                path: /,
-                pathType: Prefix,
-                backend:
-                  { service: { name: tranquil-pds, port: { number: 80 } } },
-              },
-            ],
-        }
     - host: aly.social
       http:
         {
