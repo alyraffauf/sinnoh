@@ -125,10 +125,45 @@ spec:
           paths:
             [
               {
-                path: /,
+                path: /xrpc,
                 pathType: Prefix,
                 backend:
                   { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+              {
+                path: /oauth,
+                pathType: Prefix,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+              {
+                path: /.well-known,
+                pathType: Prefix,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+              {
+                path: /u,
+                pathType: Prefix,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+              {
+                path: /health,
+                pathType: Prefix,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+              {
+                path: /favicon.ico,
+                pathType: Exact,
+                backend:
+                  { service: { name: tranquil-pds, port: { number: 80 } } },
+              },
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: pacifico, port: { number: 80 } } },
               },
             ],
         }

@@ -8,6 +8,7 @@ spec:
     - name: letsencrypt
     - name: vaultwarden
     - name: tranquil-pds
+    - name: pacifico
     - name: aly-codes
     - name: skytrace
     - name: switchyard

@@ -13,6 +13,7 @@ resources:
   - alloy.yaml
   - vaultwarden.yaml
   - tranquil-pds.yaml
+  - pacifico.yaml
   - letsencrypt.yaml
   - traefik.yaml
   - atbbs.yaml
