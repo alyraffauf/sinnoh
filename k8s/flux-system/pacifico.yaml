@@ -4,8 +4,6 @@ metadata:
   name: pacifico
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: tranquil-pds
   interval: 10m
   path: ./k8s/pacifico
   prune: true
