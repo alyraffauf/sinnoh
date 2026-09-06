@@ -21,4 +21,5 @@ resources:
   - skytrace.yaml
   - switchyard.yaml
   - morsels.yaml
+  - slingshot.yaml
   - ingress.yaml
