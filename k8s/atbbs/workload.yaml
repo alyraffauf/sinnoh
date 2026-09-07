@@ -56,3 +56,68 @@ spec:
       services:
         - name: atbbs-telnet
           port: 2323
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atbbs-web
+  namespace: atbbs
+  labels:
+    app: atbbs-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: atbbs-web
+  template:
+    metadata:
+      labels:
+        app: atbbs-web
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: atbbs-web
+      containers:
+        - name: atbbs-web
+          image: ghcr.io/alyraffauf/atbbs:latest@sha256:6b4ecf462a947b74cf862454c33b463d285a82cc12691922a603720124752b06
+          env:
+            - name: PUBLIC_URL
+              value: https://atbbs.aly.town
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atbbs-web
+  namespace: atbbs
+spec:
+  selector:
+    app: atbbs-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
