@@ -86,7 +86,7 @@ spec:
               app: atbbs-web
       containers:
         - name: atbbs-web
-          image: ghcr.io/alyraffauf/atbbs:latest@sha256:f0e5ff02245b1cec71d29709ded017d7edc1822a162d7d8c68df3c7769608863
+          image: ghcr.io/alyraffauf/atbbs:latest@sha256:cc7360d37e8058762ed5db6bb8c75e212dae51e75a3cef1e5a773cc877f6e84b
           env:
             - name: PUBLIC_URL
               value: https://atbbs.aly.town
