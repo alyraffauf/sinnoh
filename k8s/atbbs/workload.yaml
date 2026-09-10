@@ -19,7 +19,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: atbbs-telnet
-          image: ghcr.io/alyraffauf/atbbs-telnet:latest@sha256:9e74409c72594b303d13f4481c881385c803b133d85590f97ba0f085c28b1521
+          image: ghcr.io/alyraffauf/atbbs-telnet:latest@sha256:1a944b5928ba130bdd90054cd8936f12b9265ab7c5370b6951f153761317c78f
           ports:
             - name: telnet
               containerPort: 2323
