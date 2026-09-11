@@ -32,13 +32,13 @@ spec:
             - name: SLINGSHOT_CACHE_DIR
               value: /cache
             - name: SLINGSHOT_IDENTITY_CACHE_DISK_DB
-              value: "2"
+              value: "1"
             - name: SLINGSHOT_IDENTITY_CACHE_MEMORY_MB
               value: "32"
             - name: SLINGSHOT_JETSTREAM
               value: wss://jetstream1.us-east.bsky.network/subscribe
             - name: SLINGSHOT_RECORD_CACHE_DISK_DB
-              value: "4"
+              value: "1"
             - name: SLINGSHOT_RECORD_CACHE_MEMORY_MB
               value: "128"
           ports:
@@ -48,9 +48,11 @@ spec:
             requests:
               cpu: 100m
               memory: 384Mi
+              ephemeral-storage: 3Gi
             limits:
               cpu: "2"
               memory: 1Gi
+              ephemeral-storage: 4Gi
           startupProbe:
             httpGet:
               path: /
@@ -73,7 +75,7 @@ spec:
       volumes:
         - name: cache
           emptyDir:
-            sizeLimit: 2Gi
+            sizeLimit: 3Gi
 ---
 apiVersion: v1
 kind: Service
