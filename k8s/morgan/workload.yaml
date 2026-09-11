@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: morgan
+  namespace: morgan
+  labels:
+    app: morgan
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: morgan
+  template:
+    metadata:
+      labels:
+        app: morgan
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: morgan
+      containers:
+        - name: morgan
+          image: ghcr.io/alyraffauf/morgantamayo.com:latest@sha256:d46414f7a68710df86e7e4f709e7f107d70b972d3a6844c996c6171b40947d27
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: morgan
+  namespace: morgan
+spec:
+  selector:
+    app: morgan
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

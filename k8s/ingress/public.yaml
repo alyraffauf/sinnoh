@@ -51,6 +51,16 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  name: morgan
+  namespace: morgan
+spec:
+  secretName: morgan-tls
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  dnsNames: [morgan.aly.town]
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
   name: morsels
   namespace: morsels
 spec:
@@ -231,6 +241,26 @@ spec:
                 pathType: Prefix,
                 backend:
                   { service: { name: switchyard, port: { name: http } } },
+              },
+            ],
+        }
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: morgan, namespace: morgan }
+spec:
+  ingressClassName: traefik
+  tls: [{ hosts: [morgan.aly.town], secretName: morgan-tls }]
+  rules:
+    - host: morgan.aly.town
+      http:
+        {
+          paths:
+            [
+              {
+                path: /,
+                pathType: Prefix,
+                backend: { service: { name: morgan, port: { name: http } } },
               },
             ],
         }
