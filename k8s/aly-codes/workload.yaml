@@ -26,7 +26,7 @@ spec:
               app: aly-codes
       containers:
         - name: aly-codes
-          image: ghcr.io/alyraffauf/aly.codes:latest@sha256:bb1b490adc85985ea91b7d99b3ce6b043a37458f9147da76b68d00c0b8d5ec5e
+          image: ghcr.io/alyraffauf/aly.codes:latest@sha256:5243272516220561a5b57bbbb8303a17b9c1ddb55575ad76acaf820e45aca73d
           ports:
             - name: http
               containerPort: 80
