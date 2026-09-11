@@ -26,7 +26,7 @@ spec:
               app: morgan
       containers:
         - name: morgan
-          image: ghcr.io/alyraffauf/morgantamayo.com:latest@sha256:d46414f7a68710df86e7e4f709e7f107d70b972d3a6844c996c6171b40947d27
+          image: ghcr.io/alyraffauf/morgantamayo.com:latest@sha256:ae629748512aa81d45c6d1680a3c6e54f4270bca88d6d5cd5bcb86c672286971
           ports:
             - name: http
               containerPort: 80
