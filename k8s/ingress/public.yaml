@@ -55,7 +55,7 @@ metadata:
   namespace: morgan
 spec:
   secretName: morgan-tls
-  issuerRef: { kind: ClusterIssuer, name: letsencrypt }
+  issuerRef: { kind: ClusterIssuer, name: letsencrypt-http }
   dnsNames: [morgantamayo.com, www.morgantamayo.com]
 ---
 apiVersion: cert-manager.io/v1
