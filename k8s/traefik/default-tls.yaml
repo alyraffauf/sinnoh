@@ -28,6 +28,12 @@ spec:
       access:
         enabled: true
         format: json
+    resources:
+      requests:
+        cpu: 25m
+        memory: 192Mi
+      limits:
+        memory: 256Mi
     ports:
       telnet:
         port: 2323
