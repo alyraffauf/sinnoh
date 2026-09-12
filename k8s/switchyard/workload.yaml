@@ -27,7 +27,7 @@ spec:
               app: switchyard
       containers:
         - name: switchyard
-          image: ghcr.io/alyraffauf/switchyard-website:latest@sha256:9f2b460f89c6333546e0f5fa90efa1a379a22e9917457860f462281598c5e2d4
+          image: ghcr.io/alyraffauf/switchyard-website:latest@sha256:372282c55a266d7fe43922c22845e0fb80e6fd7b0e8ced751019d7c3795acd93
           ports:
             - name: http
               containerPort: 80
