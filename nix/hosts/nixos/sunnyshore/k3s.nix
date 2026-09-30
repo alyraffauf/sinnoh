@@ -19,7 +19,10 @@ _: {
         "/var/lib/rancher/k3s/server/tls"
       ];
       repository = "rclone:b2:aly-backups/sinnoh/sunnyshore/k3s";
-      backupPrepareCommand = "${config.services.k3s.package}/bin/k3s etcd-snapshot save";
+      backupPrepareCommand = ''
+        ${config.services.k3s.package}/bin/k3s etcd-snapshot save &&
+        ${config.services.k3s.package}/bin/k3s etcd-snapshot prune --snapshot-retention 5
+      '';
       extraBackupArgs = ["--cleanup-cache"];
       initialize = true;
       passwordFile = config.sops.secrets.restic-password.path;
